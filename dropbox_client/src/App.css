@@ -1,0 +1,44 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+
+  height: 40px;
+}
+
+.App-header {
+  background-color: #FFF;
+  height: 75px;
+  padding: 20px;
+  color: white;
+  position: sticky;
+  width: 100%;
+  z-index: 99999;
+  top: 0;
+  -moz-box-shadow:    3px 3px 3px 3px #ccc;
+  -webkit-box-shadow: 3px 3px 3px 3px #ccc;
+  box-shadow:         3px 3px 3px 3px #ccc;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.divStyle {
+  margin-top: 15%;
+  font-weight: 500;
+  color : green;
+  font-size: 150%;
+
+}
+
