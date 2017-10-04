@@ -3,6 +3,7 @@ import logo from './public/dropbox_logo_panel.svg';
 import './App.css';
 import { connect } from "react-redux";
 import { setUsername, setPassword, login } from "./actions/userActions";
+import { Link } from 'react-router-dom';
 
 
 class SignIn extends Component {
@@ -12,7 +13,14 @@ class SignIn extends Component {
     
    var username = this.props.username;
    var password = this.props.password;
-   var result = this.props.result;
+   var isValid = this.props.isValid;
+
+   console.log('SIGN IN STATUS ' + isValid);
+
+   if(isValid===true)
+   {
+     this.props.history.push('/Home');
+   }
 
     return (
       <div>
@@ -29,7 +37,7 @@ class SignIn extends Component {
           <div >
             
             <div className="form-group row">
-                <a href="/signUp">Sign Up</a>
+                <Link to="/SignUp" href="#">Sign Up</Link>
             </div>
             <div className="form-group row">
                 
@@ -70,7 +78,7 @@ function mapDispatchToProps(dispatch) {
 const mapStateToProps = (state) => { 
   return { username: state.reducer.username,
            password: state.reducer.password,
-           result: state.reducer.result
+           isValid: state.reducer.isValid
          };
 };
 
