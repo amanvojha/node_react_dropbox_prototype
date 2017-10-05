@@ -70,7 +70,7 @@ module.exports = function(app){
 				else
 					{
 						console.log("Wrong Password");
-						res.json({status:false});
+						res.json({token:''});
 					}
 			}
 			else

@@ -13,7 +13,8 @@ var data ={
 	password:null,
 	result:null,
 	operation:null,
-	isValid:null	
+	isValid:null,
+	isLogout:null	
 };
 const reducer = (state=data, action) =>{
 
@@ -59,6 +60,15 @@ const reducer = (state=data, action) =>{
 			return Object.assign({}, state, {
 						isValid: action.payload
 					})
+			break;
+		}
+
+		case "LOGOUT" : {
+
+			return Object.assign({}, state, {
+
+				isValid: action.payload
+			})
 			break;
 		}
 

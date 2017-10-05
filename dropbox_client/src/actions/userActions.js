@@ -1,5 +1,6 @@
 import axios from "axios"
 import setAuthorizationToken from '../utils/setAuthorizationToken';
+import jwt from 'jsonwebtoken';
 
 export function setFirstName(first_name) {
   
@@ -47,17 +48,43 @@ export function login(username,password) {
                const token = response.data.token;
                localStorage.setItem('jwtToken', token);
                setAuthorizationToken(token);
-                                
-               dispatch({
+               console.log('DECODE' + jwt.decode(token));
+
+               console.log('LENGTH ' + token.length);
+               if(token.length>0){
+                
+                dispatch({
                    type: "CHECK_PASSWORD",
-                   payload: response.data.status
-              })
-             
+                   payload: true
+                })
+
+               }
+               else{
+                dispatch({
+                   type: "CHECK_PASSWORD",
+                   payload: false
+                })
+               }
+
             })
             .catch(function (error) {
               console.log(error);
               });
   }
+}
+
+export function logout() {
+
+  return function(dispatch) {
+
+    localStorage.removeItem('jwtToken');
+    setAuthorizationToken(false);
+    dispatch({
+        type: "LOGOUT",
+        payload: false
+    })
+  }
+
 }
 
 export function signup(first_name, last_name, username, password) {
