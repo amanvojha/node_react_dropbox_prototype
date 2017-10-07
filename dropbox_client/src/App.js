@@ -4,10 +4,21 @@ import './App.css';
 import { connect } from "react-redux";
 import { setUsername, setPassword, login } from "./actions/userActions";
 import { Link } from 'react-router-dom';
+import image_login from './public/dropbox_login_image.png'
 
 
 class SignIn extends Component {
 
+   
+   componentDidUpdate(prevProps, prevState) {
+    console.log('This props is valid ' , this.props.isValid)
+      if(this.props.isValid){
+        console.log('Pushing to the page ')
+        this.props.history.push('/Home');
+      }
+   }
+
+   
 
   render() {
     
@@ -15,12 +26,8 @@ class SignIn extends Component {
    var password = this.props.password;
    var isValid = this.props.isValid;
 
-   console.log('SIGN IN STATUS ' + isValid);
-
-   if(isValid===true)
-   {
-     this.props.history.push('/Home');
-   }
+  
+   
 
     return (
       <div>
@@ -28,40 +35,49 @@ class SignIn extends Component {
           <img src={logo} className="App-logo" alt="logo" />
         </header>
         
-        <div className="container "> 
+                  <div className="container col-md-12 login-body row"> 
 
-          <div className="panel-heading divStyle">
-            <div className="panel-title ">Sign In</div>                        
-          </div>
+                        <div className=" col-md-6">
+                          <img src={image_login} className="login_img"  />  
+                        </div>
 
-          <div >
-            
-            <div className="form-group row">
-                <Link to="/SignUp" href="#">Sign Up</Link>
-            </div>
-            <div className="form-group row">
-                
-                <div className="col-sm-4">
-                  <input type="text" className="form-control" name="username" id="username" placeholder="Username" onChange={() =>this.props.dispatch(this.props.setUsername(document.getElementById('username').value))}></input>
-                </div>
-            </div>
+                        <div className="col-md-6">
 
-            <div className="form-group row">
-                <div className="col-sm-4">
-                  <input type="password" className="form-control" name="password" id="password" placeholder="Password" onChange={() =>this.props.dispatch(this.props.setPassword(document.getElementById('password').value))}></input>
-                </div>
-            </div>
 
-            <div className="form-group row">
-                <div className="col-sm-7">
-                  <button type="submit" onClick={() =>this.props.login(this.props.username, this.props.password, 'login')} className="btn btn-primary" >Sign In</button>
-                </div> 
-            </div>
+                              <div className="col-md-8 row">
+                                      <div className="col-md-4 divStyle">
+                                        <div className="panel-title ">Sign In</div>                        
+                                      </div>
+                                      <div className="col-md-4 sinup-btn">
+                                                    <Link to="/SignUp" href="#">Create an account</Link>
+                                      </div>
+                              </div>        
 
-          
-          </div>
+                              <div >
+                              
+                                      <div className="form-group row">
+                                          
+                                          <div className="col-sm-6">
+                                            <input type="text" className="form-control" name="username" id="username" placeholder="Username" onChange={() =>this.props.dispatch(this.props.setUsername(document.getElementById('username').value))}></input>
+                                          </div>
+                                      </div>
 
-        </div>
+                                      <div className="form-group row">
+                                          <div className="col-sm-6">
+                                            <input type="password" className="form-control" name="password" id="password" placeholder="Password" onChange={() =>this.props.dispatch(this.props.setPassword(document.getElementById('password').value))}></input>
+                                          </div>
+                                      </div>
+
+                                      <div className="form-group row">
+                                          <div className="col-sm-7">
+                                            <button type="submit" onClick={() =>this.props.login(this.props.username, this.props.password, 'login')} className="btn btn-primary" >Sign In</button>
+                                          </div> 
+                                      </div>
+
+                            
+                              </div>
+                        </div>
+                  </div>
 
       </div>
     );

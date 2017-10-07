@@ -13,8 +13,10 @@ var data ={
 	password:null,
 	result:null,
 	operation:null,
-	isValid:null,
-	isLogout:null	
+	isValid:false,
+	isLogout:null,
+	file_list:[],
+	file_stared:[]	
 };
 const reducer = (state=data, action) =>{
 
@@ -45,6 +47,15 @@ const reducer = (state=data, action) =>{
 			break;
 		}
 
+		case "HOME":{
+			
+			return Object.assign({}, state, {
+						username: action.payload.username,
+						isValid: action.payload.isValid
+					})
+			break;
+		}
+
 
 		case "PASS":{
 			
@@ -60,6 +71,36 @@ const reducer = (state=data, action) =>{
 			return Object.assign({}, state, {
 						isValid: action.payload
 					})
+			break;
+		}
+
+		case "UPLOADED_FILES":{
+			
+			console.log('UPLOADED_FILES' + action.payload);
+			return Object.assign({}, state, {
+						file_list:action.payload
+					})
+					
+			break;
+		}
+
+		case "SET_FILES":{
+			
+			console.log('SET_FILES' + action.payload);
+			return Object.assign({}, state, {
+						file_list:action.payload
+					})
+					
+			break;
+		}
+
+		case "STAR_FILES":{
+			
+			console.log('STAR_FILES' + action.payload);
+			return Object.assign({}, state, {
+						file_stared:action.payload
+					})
+					
 			break;
 		}
 

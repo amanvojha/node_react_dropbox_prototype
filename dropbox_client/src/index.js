@@ -9,6 +9,8 @@ import { Provider } from "react-redux"
 import store from "./reducer/reducer"
 import {BrowserRouter , Route, Switch } from 'react-router-dom';
 import setAuthorizationToken from './utils/setAuthorizationToken';
+import jwt from 'jsonwebtoken';
+import { setUsername, setHome } from "./actions/userActions";
 
 const Pages = () => (
 
@@ -19,7 +21,10 @@ const Pages = () => (
 	</Switch>
 );
 
-setAuthorizationToken(localStorage.jwtToken);
+if(localStorage.jwtToken){
+	setAuthorizationToken(localStorage.jwtToken);
+	store.dispatch(setHome(jwt.decode(localStorage.jwtToken).username,true));	
+}
 
 ReactDOM.render(
             <Provider store={store}>

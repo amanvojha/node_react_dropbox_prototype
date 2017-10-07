@@ -19,12 +19,22 @@ export function setLastName(last_name) {
 }
 
 export function setUsername(username) {
-  
+  console.log('SETTING USER' + username)
   return {
     type: "USER",
     payload: username
   }
 }
+
+export function setHome(username,isValid) {
+  console.log('SETTING HOME' + username + isValid)
+  return {
+    type: "HOME",
+    payload: {username,isValid}
+  }
+}
+
+
 
 export function setPassword(password) {
   
@@ -44,13 +54,11 @@ export function login(username,password) {
             })
             .then(function (response) {
                  
-               console.log('TOKEN : ' + response.data.token)
+               
                const token = response.data.token;
                localStorage.setItem('jwtToken', token);
                setAuthorizationToken(token);
-               console.log('DECODE' + jwt.decode(token));
-
-               console.log('LENGTH ' + token.length);
+              
                if(token.length>0){
                 
                 dispatch({
@@ -89,7 +97,7 @@ export function logout() {
 
 export function signup(first_name, last_name, username, password) {
   
-  console.log('SIGN UP' + first_name + last_name + username+password)
+  
   return function(dispatch){
       axios.post('http://localhost:3002/api/signup', {
             
@@ -109,3 +117,81 @@ export function signup(first_name, last_name, username, password) {
               });
   }
 }
+
+export function upload(username,file) {
+
+  console.log('UPLOAD USERNAME' + username);
+  const data = new FormData();
+  data.append('username' , username);
+  data.append('file' , file);
+  //data.append('test' : "TEST");
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/upload', data )
+         .then((response) => {
+
+              console.log(response);
+              dispatch({
+                   type: "UPLOADED_FILES",
+                   payload: response.data.list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+}
+
+export function setFiles(username) {
+
+  console.log('SET FILES ' + username);
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/setFiles', {username} )
+         .then((response) => {
+
+              console.log(response);
+              dispatch({
+                   type: "SET_FILES",
+                   payload: response.data.list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+
+
+}
+
+export function setStar(username,file_id) {
+
+  console.log('UPLOAD USERNAME ' + username);
+  console.log('FILE ' + file_id);
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/star', {
+        
+            username, file_id
+          
+          })
+         .then((response) => {
+
+              console.log('ACTION STAR ' + response.data.star_list);
+              dispatch({
+                   type: "STAR_FILES",
+                   payload: response.data.star_list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+}
+
