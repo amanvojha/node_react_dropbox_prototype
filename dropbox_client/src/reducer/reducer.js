@@ -16,6 +16,7 @@ var data ={
 	isValid:false,
 	isLogout:null,
 	file_list:[],
+	file_list_recent:[],
 	file_stared:[]	
 };
 const reducer = (state=data, action) =>{
@@ -84,6 +85,16 @@ const reducer = (state=data, action) =>{
 			break;
 		}
 
+		case "UPLOADED_HOME_FILES":{
+			
+			console.log('UPLOADED_HOME_FILES' + action.payload);
+			return Object.assign({}, state, {
+						file_list_recent:action.payload
+					})
+					
+			break;
+		}
+
 		case "SET_FILES":{
 			
 			console.log('SET_FILES' + action.payload);
@@ -94,9 +105,29 @@ const reducer = (state=data, action) =>{
 			break;
 		}
 
+		case "SET_HOME_FILES":{
+			
+			console.log('SET_HOME_FILES' + action.payload);
+			return Object.assign({}, state, {
+						file_list_recent:action.payload
+					})
+					
+			break;
+		}
+
 		case "STAR_FILES":{
 			
 			console.log('STAR_FILES' + action.payload);
+			return Object.assign({}, state, {
+						file_stared:action.payload
+					})
+					
+			break;
+		}
+
+		case "SET_STAR_FILES":{
+			
+			console.log('SET_STAR_FILES' + action.payload);
 			return Object.assign({}, state, {
 						file_stared:action.payload
 					})

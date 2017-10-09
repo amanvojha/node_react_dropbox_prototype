@@ -118,6 +118,34 @@ export function signup(first_name, last_name, username, password) {
   }
 }
 
+//Upload files from Home (List only 5 files in Recent)
+export function uploadHome(username,file) {
+
+  console.log('UPLOAD HOME USERNAME' + username);
+  const data = new FormData();
+  data.append('username' , username);
+  data.append('file' , file);
+  //data.append('test' : "TEST");
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/uploadHome', data )
+         .then((response) => {
+
+              console.log(response);
+              dispatch({
+                   type: "UPLOADED_HOME_FILES",
+                   payload: response.data.list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+}
+
+//Upload files from Other Pages (List All files)
 export function upload(username,file) {
 
   console.log('UPLOAD USERNAME' + username);
@@ -143,7 +171,7 @@ export function upload(username,file) {
 
   }
 }
-
+//Set All Files
 export function setFiles(username) {
 
   console.log('SET FILES ' + username);
@@ -167,11 +195,35 @@ export function setFiles(username) {
 
 
 }
+//Set Recent Files
+export function setHomeFiles(username) {
+
+  console.log('SET HOME FILES ' + username);
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/setHomeFiles', {username} )
+         .then((response) => {
+
+              console.log(response);
+              dispatch({
+                   type: "SET_HOME_FILES",
+                   payload: response.data.list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+
+
+}
 
 export function setStar(username,file_id) {
 
-  console.log('UPLOAD USERNAME ' + username);
-  console.log('FILE ' + file_id);
+  console.log('SET STAR USERNAME ' + username);
+  console.log('FILE ID' + file_id);
 
   return function(dispatch){
 
@@ -193,5 +245,86 @@ export function setStar(username,file_id) {
              })
 
   }
+}
+
+//Unset Starred files after clicking red star icon
+export function unsetStar(username,file_id) {
+
+  console.log('UNSET USERNAME ' + username);
+  console.log('FILE ID' + file_id);
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/unstar', {
+        
+            username, file_id
+          
+          })
+         .then((response) => {
+
+              console.log('ACTION STAR ' + response.data.star_list);
+              dispatch({
+                   type: "STAR_FILES",
+                   payload: response.data.star_list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+}
+
+
+//Getting list of Starred files after refresh
+export function getStar(username) {
+
+  console.log('STAR FILES ' + username);
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/getStar', {username} )
+         .then((response) => {
+
+              console.log(response);
+              dispatch({
+                   type: "SET_STAR_FILES",
+                   payload: response.data.star_list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+
+
+}
+
+export function download(username, file_name) {
+
+    console.log('DOWNLOAD ' + username + file_name);
+    return function(dispatch){
+
+      axios.get('http://localhost:3002/api/download', {
+
+            username,file_name 
+
+            })
+           .then((response) => {
+
+              console.log(response);
+              dispatch({
+                   type: "TEST",
+                   payload: response.data.star_list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+
+
 }
 

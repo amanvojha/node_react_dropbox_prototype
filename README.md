@@ -9,3 +9,5 @@ Development Log:
 4. UI modified.
 5. Home page implemented.
 6. File Listing and Stared File listed done.
+7. Done with Star and Un-star functionality.
+8. Added new pages for development.

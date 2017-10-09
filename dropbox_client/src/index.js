@@ -4,6 +4,8 @@ import './index.css';
 import SignIn from './App';
 import SignUp from './routes/SignUp';
 import Home from './routes/Home';
+import Files from './routes/Files';
+import Shared from './routes/Shared';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from "react-redux"
 import store from "./reducer/reducer"
@@ -18,6 +20,10 @@ const Pages = () => (
 		<Route path="/" exact component={SignIn} />
 		<Route path="/SignUp" exact component={SignUp} />
 		<Route path="/Home" exact component={Home} />
+		<Route path="/Files" exact component={Files} />
+		<Route path="/Shared" exact component={Shared} />
+		<Route path="/Files" exact component={Files} />
+		<Route path="/Files" exact component={Files} />
 	</Switch>
 );
 
