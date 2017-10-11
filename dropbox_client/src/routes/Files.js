@@ -3,9 +3,10 @@ import logo from '../public/dropbox_logo_panel.svg';
 import star from '../public/star.png';
 import logo_small from '../public/logo_small.svg';
 import smiley from '../public/smiley.png';
+import dots from '../public/dots.svg';
 import '../App.css';
 import { setFirstName, setLastName, setUsername, setPassword, login, signup, logout, upload, setFiles } from "../actions/userActions";
-import { setStar, getStar, download } from "../actions/userActions";
+import { setStar, getStar, download, deleteFile } from "../actions/userActions";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 
@@ -55,7 +56,17 @@ class Files extends Component {
           return(
               <div key={key} >
                   <label htmlFor="fileName" className="home-file-row" /*onClick={() => this.props.download(this.props.username,item.file_name)}*/>{item.file_name}
-                    <img src={star} className="home-row-objects" onClick={() => this.props.setStar(this.props.username,item.file_id)}/>
+                    <div className="dropdown home-row-objects">
+                                      <a href="#" className="" data-toggle="dropdown" role="button"><img src={dots} className="dots "/></a>
+                                        <ul className="dropdown-menu smiley-btn">
+                                            <li className="smiley-content" onClick={() => this.props.deleteFile(this.props.username,item.file_id,item.file_name)}>Delete File</li>
+                                            <li className="smiley-content" >Download</li>
+
+                                        </ul>
+                    </div>
+
+                    <img src={star} className="home-row-objects" onClick={() => this.props.setStar(this.props.username,item.file_id,item.file_name)}/>
+                  
                   </label>
               </div> 
           )
@@ -74,7 +85,7 @@ class Files extends Component {
                                <Link to="/Home" className="row" style={pad}>Home</Link>
                                <Link to="/Files" className="row" style={pad}>My Files</Link>
                                <Link to="/Shared" className="row" style={pad}>Shared Files</Link>
-                               <Link to="/Files" className="row" style={pad}>Activity Log</Link>
+                               <Link to="/Activity" className="row" style={pad}>Activity Log</Link>
                                <Link to="/Files" className="row" style={pad}>Profile</Link>
                               
                           </div>  
@@ -107,7 +118,7 @@ class Files extends Component {
 
                             <div>
                                   <div className="dropdown">
-                                      <a href="#" className="dropdown-toggle smiley-icon" data-toggle="dropdown" role="button"><img src={smiley}/></a>
+                                      <a href="#" className=" smiley-icon" data-toggle="dropdown" role="button"><img src={smiley}/></a>
                                         <ul className="dropdown-menu smiley-btn">
                                             <li className="smiley-content"><a href="#">Edit Profile</a></li>
                                             <li className="smiley-content"><a href="#" onClick={() => this.props.logout()}>Sign Out</a></li>
@@ -140,9 +151,10 @@ function mapDispatchToProps(dispatch) {
         logout : () => dispatch(logout()),
         upload : (username,file) => dispatch(upload(username,file)),
         setFiles: (username) => dispatch(setFiles(username)),
-        setStar: (username,file_id) => dispatch(setStar(username,file_id)),
+        setStar: (username,file_id,file_name) => dispatch(setStar(username,file_id,file_name)),
         getStar: (username) => dispatch(getStar(username)),
-        download: (username,file_name) => dispatch(download(username,file_name))
+        download: (username,file_name) => dispatch(download(username,file_name)),
+        deleteFile: (username,file_id,file_name) => dispatch(deleteFile(username,file_id,file_name))
         
     };
 }

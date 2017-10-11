@@ -74,7 +74,7 @@ class Shared extends Component {
                                <Link to="/Home" className="row" style={pad}>Home</Link>
                                <Link to="/Files" className="row" style={pad}>My Files</Link>
                                <Link to="/Shared" className="row" style={pad}>Shared Files</Link>
-                               <Link to="/Files" className="row" style={pad}>Activity Log</Link>
+                               <Link to="/Activity" className="row" style={pad}>Activity Log</Link>
                                <Link to="/Files" className="row" style={pad}>Profile</Link>
                               
                           </div>  
@@ -107,7 +107,7 @@ class Shared extends Component {
 
                             <div>
                                   <div className="dropdown">
-                                      <a href="#" className="dropdown-toggle smiley-icon" data-toggle="dropdown" role="button"><img src={smiley}/></a>
+                                      <a href="#" className=" smiley-icon" data-toggle="dropdown" role="button"><img src={smiley}/></a>
                                         <ul className="dropdown-menu smiley-btn">
                                             <li className="smiley-content"><a href="#">Edit Profile</a></li>
                                             <li className="smiley-content"><a href="#" onClick={() => this.props.logout()}>Sign Out</a></li>

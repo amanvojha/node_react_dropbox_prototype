@@ -11,3 +11,5 @@ Development Log:
 6. File Listing and Stared File listed done.
 7. Done with Star and Un-star functionality.
 8. Added new pages for development.
+9. Added Activity Log page.
+10. Added Delete File functionality.

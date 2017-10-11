@@ -220,7 +220,7 @@ export function setHomeFiles(username) {
 
 }
 
-export function setStar(username,file_id) {
+export function setStar(username,file_id,file_name) {
 
   console.log('SET STAR USERNAME ' + username);
   console.log('FILE ID' + file_id);
@@ -229,7 +229,7 @@ export function setStar(username,file_id) {
 
     axios.post('http://localhost:3002/api/star', {
         
-            username, file_id
+            username, file_id, file_name
           
           })
          .then((response) => {
@@ -248,7 +248,7 @@ export function setStar(username,file_id) {
 }
 
 //Unset Starred files after clicking red star icon
-export function unsetStar(username,file_id) {
+export function unsetStar(username,file_id,file_name) {
 
   console.log('UNSET USERNAME ' + username);
   console.log('FILE ID' + file_id);
@@ -257,7 +257,7 @@ export function unsetStar(username,file_id) {
 
     axios.post('http://localhost:3002/api/unstar', {
         
-            username, file_id
+            username, file_id, file_name
           
           })
          .then((response) => {
@@ -326,5 +326,61 @@ export function download(username, file_name) {
   }
 
 
+}
+
+//Delete files
+export function deleteFile(username,file_id,file_name) {
+
+  console.log('DELETE FILE USERNAME ' + username);
+  console.log('FILE ID' + file_id);
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/deleteFile', {
+        
+            username, file_id, file_name
+          
+          })
+         .then((response) => {
+
+              console.log('DELETE FILE ' + response.data.full_list);
+              console.log('DELETE FILE ' + response.data.recent_list);
+              dispatch({
+                   type: "DELETE_FILES",
+                   payload: response.data
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+}
+
+//Delete files
+export function getActivity(username) {
+
+  console.log('ACTIVITY USERNAME ' + username);
+  
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/getActivity', {
+        
+            username
+          
+          })
+         .then((response) => {
+
+              dispatch({
+                   type: "ACTIVITY",
+                   payload: response.data.list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
 }
 

@@ -17,7 +17,8 @@ var data ={
 	isLogout:null,
 	file_list:[],
 	file_list_recent:[],
-	file_stared:[]	
+	file_stared:[],
+	activity:[]	
 };
 const reducer = (state=data, action) =>{
 
@@ -135,11 +136,31 @@ const reducer = (state=data, action) =>{
 			break;
 		}
 
+		case "DELETE_FILES":{
+			
+			console.log('DELETE_FILES' + action.payload);
+			return Object.assign({}, state, {
+						file_list:action.payload.full_list,
+						file_list_recent: action.payload.recent_list
+					})
+					
+			break;
+		}
+
 		case "LOGOUT" : {
 
 			return Object.assign({}, state, {
 
 				isValid: action.payload
+			})
+			break;
+		}
+
+		case "ACTIVITY" : {
+
+			return Object.assign({}, state, {
+
+				activity: action.payload
 			})
 			break;
 		}

@@ -6,6 +6,7 @@ import SignUp from './routes/SignUp';
 import Home from './routes/Home';
 import Files from './routes/Files';
 import Shared from './routes/Shared';
+import Activity from './routes/Activity';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from "react-redux"
 import store from "./reducer/reducer"
@@ -22,7 +23,7 @@ const Pages = () => (
 		<Route path="/Home" exact component={Home} />
 		<Route path="/Files" exact component={Files} />
 		<Route path="/Shared" exact component={Shared} />
-		<Route path="/Files" exact component={Files} />
+		<Route path="/Activity" exact component={Activity} />
 		<Route path="/Files" exact component={Files} />
 	</Switch>
 );

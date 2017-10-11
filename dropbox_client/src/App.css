@@ -161,12 +161,14 @@
 
 .smiley-icon {
   margin-left: 150px;
+
 }
 
 .smiley-content {
 
   margin-left: 20px;
   margin-top: 20px;
+  color:black;
 }
 
 .upload-btn {
@@ -175,4 +177,11 @@
   height:40px;
   margin-left: 20px;
 
-}    
+} 
+
+.dots {
+  height:20px;
+  width: 20px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}

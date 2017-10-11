@@ -4,9 +4,10 @@ import star from '../public/star.png';
 import unstar from '../public/unstar.png';
 import logo_small from '../public/logo_small.svg';
 import smiley from '../public/smiley.png';
+import dots from '../public/dots.svg';
 import '../App.css';
 import { setFirstName, setLastName, setUsername, setPassword, login, signup, logout, uploadHome, setHomeFiles } from "../actions/userActions";
-import { setStar,unsetStar, getStar, download } from "../actions/userActions";
+import { setStar,unsetStar, getStar, download, deleteFile } from "../actions/userActions";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 
@@ -57,10 +58,23 @@ class Home extends Component {
     var file_list_recent = this.props.file_list_recent.map((item,key) =>
       {
           return(
-              <div key={key} >
+              <div key={key}>
                   <label htmlFor="fileName" className="home-file-row" /*onClick={() => this.props.download(this.props.username,item.file_name)}*/>{item.file_name}
-                    <img src={star} className="home-row-objects" onClick={() => this.props.setStar(this.props.username,item.file_id)}/>
+                    <div className="dropdown home-row-objects">
+                                      <a href="#" className="" data-toggle="dropdown" role="button"><img src={dots} className="dots "/></a>
+                                        <ul className="dropdown-menu smiley-btn">
+                                            <li className="smiley-content" onClick={() => this.props.deleteFile(this.props.username,item.file_id,item.file_name)}>Delete File</li>
+                                            <li className="smiley-content" >Download</li>
+
+                                        </ul>
+                    </div>
+
+                    <img src={star} className="home-row-objects" onClick={() => this.props.setStar(this.props.username,item.file_id,item.file_name)}/>
+                    
+                    
+                  
                   </label>
+                  
               </div> 
           )
       }
@@ -71,7 +85,8 @@ class Home extends Component {
           return(
               <div key={key}>
                   <label htmlFor="fileStared" className="home-file-row">{item.file_name}
-                      <img src={unstar} className="home-row-objects" onClick={() => this.props.unsetStar(this.props.username,item.file_id)}/>
+                      <img src={unstar} className="home-row-objects" onClick={() => this.props.unsetStar(this.props.username,item.file_id,item.file_name)}/>
+
                   </label>
               </div> 
           )
@@ -89,8 +104,9 @@ class Home extends Component {
                                <Link to="/Home" className="row" style={pad}>Home</Link>
                                <Link to="/Files" className="row" style={pad}>My Files</Link>
                                <Link to="/Shared" className="row" style={pad}>Shared Files</Link>
-                               <Link to="/Files" className="row" style={pad}>Activity Log</Link>
+                               <Link to="/Activity" className="row" style={pad}>Activity Log</Link>
                                <Link to="/Files" className="row" style={pad}>Profile</Link>
+
                               
                           </div>  
                       </div>
@@ -126,10 +142,11 @@ class Home extends Component {
 
                             <div>
                                   <div className="dropdown">
-                                      <a href="#" className="dropdown-toggle smiley-icon" data-toggle="dropdown" role="button"><img src={smiley}/></a>
+                                      <a href="#" className=" smiley-icon" data-toggle="dropdown" role="button"><img src={smiley}/></a>
                                         <ul className="dropdown-menu smiley-btn">
                                             <li className="smiley-content"><a href="#">Edit Profile</a></li>
                                             <li className="smiley-content"><a href="#" onClick={() => this.props.logout()}>Sign Out</a></li>
+
                                         </ul>
                                   </div>
 
@@ -157,10 +174,11 @@ function mapDispatchToProps(dispatch) {
         logout : () => dispatch(logout()),
         uploadHome : (username,file) => dispatch(uploadHome(username,file)),
         setHomeFiles: (username) => dispatch(setHomeFiles(username)),
-        setStar: (username,file_id) => dispatch(setStar(username,file_id)),
-        unsetStar: (username,file_id) => dispatch(unsetStar(username,file_id)),
+        setStar: (username,file_id,file_name) => dispatch(setStar(username,file_id,file_name)),
+        unsetStar: (username,file_id,file_name) => dispatch(unsetStar(username,file_id,file_name)),
         getStar: (username) => dispatch(getStar(username)),
-        download: (username,file_name) => dispatch(download(username,file_name))
+        download: (username,file_name) => dispatch(download(username,file_name)),
+        deleteFile: (username,file_id,file_name) => dispatch(deleteFile(username,file_id,file_name))
         
     };
 }
