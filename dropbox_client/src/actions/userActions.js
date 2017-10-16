@@ -1,6 +1,7 @@
 import axios from "axios"
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import jwt from 'jsonwebtoken';
+var fileDownload = require('react-file-download');
 
 export function setFirstName(first_name) {
   
@@ -107,8 +108,8 @@ export function signup(first_name, last_name, username, password) {
             .then(function (response) {
                                 
                dispatch({
-                   type: "ASSIGN",
-                   payload: response.data.output
+                   type: "SIGNUP",
+                   payload: response.data.status
               })
              
             })
@@ -306,14 +307,20 @@ export function download(username, file_name) {
     console.log('DOWNLOAD ' + username + file_name);
     return function(dispatch){
 
-      axios.get('http://localhost:3002/api/download', {
-
-            username,file_name 
-
-            })
+      axios({
+              method:'get',
+              url:'http://localhost:3002/api/download',
+              responseType:'blob',
+              params:{
+                        username,file_name
+                      }
+           })
            .then((response) => {
 
               console.log(response);
+              
+              fileDownload(response.data, file_name);
+
               dispatch({
                    type: "TEST",
                    payload: response.data.star_list
@@ -357,7 +364,7 @@ export function deleteFile(username,file_id,file_name) {
   }
 }
 
-//Delete files
+//Get User Activity
 export function getActivity(username) {
 
   console.log('ACTIVITY USERNAME ' + username);
@@ -374,6 +381,114 @@ export function getActivity(username) {
 
               dispatch({
                    type: "ACTIVITY",
+                   payload: response.data.list
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+}
+
+//Set Profile Details
+export function setProfile(username, bio, work, education, mobile, interest) {
+
+  console.log('PROFILE USERNAME ' + username);
+
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/setProfile', {
+        
+            username, bio, work, education, mobile, interest
+          
+          })
+         .then((response) => {
+
+              dispatch({
+                   type: "EDIT_PROFILE",
+                   payload: response.data.status
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+}
+
+//Get Profile Details
+export function getProfile(username) {
+
+  console.log('PROFILE USERNAME ' + username);
+
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/getProfile', {
+        
+            username
+          
+          })
+         .then((response) => {
+
+              dispatch({
+                   type: "GET_PROFILE",
+                   payload: response.data.user_details
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+}
+
+//Share Files
+export function shareFile(username,file_id,file_name,sharedWith) {
+
+  console.log('SHARE USERNAME ' + username);
+  console.log('SHARE WITH ' + sharedWith);
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/shareFile', {
+        
+            username,file_id,file_name,sharedWith
+          
+          })
+         .then((response) => {
+
+              dispatch({
+                   type: "SHARE",
+                   payload: response.data.status
+              }) 
+
+          }).catch((err) => {
+
+             })
+
+  }
+}
+
+//Get Shared Files
+export function getSharedFile(username) {
+
+  console.log('SHARE USERNAME ' + username);
+  
+
+  return function(dispatch){
+
+    axios.post('http://localhost:3002/api/getSharedFile', {
+        
+            username
+          
+          })
+         .then((response) => {
+
+              dispatch({
+                   type: "GET_SHARE",
                    payload: response.data.list
               }) 
 

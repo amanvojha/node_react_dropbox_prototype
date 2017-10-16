@@ -10,15 +10,25 @@ import { Link } from 'react-router-dom';
 
 class SignUp extends Component {
 
-   /*var first_name = this.props.first_name;
-   var last_name = this.props.last_name;
-   var username = this.props.username;
-   var password = this.props.password;
-   var result = this.props.result;*/
+   componentWillMount() {
+
+      console.log('Component WILL MOUNT!')
+
+   }
+
+  componentDidUpdate(prevProps, prevState) {
+
+      console.log('Component DID UPDATE!')
+      if(this.props.isSignup){
+        console.log('Pushing to the page ')
+        this.props.history.push('/');
+      }
+      
+   }
 
   render() {
     
-   	console.log('SignUp');
+   	console.log('SignUp ' + this.props.isSignup);
     return (
       <div>
         <header className="App-header App">
@@ -105,7 +115,8 @@ const mapStateToProps = (state) => {
            password: state.reducer.password,
            first_name: state.reducer.first_name,
            last_name: state.reducer.last_name,
-           result: state.reducer.result
+           result: state.reducer.result,
+           isSignup: state.reducer.isSignup
          };
 };
 

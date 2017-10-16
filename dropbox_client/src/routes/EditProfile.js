@@ -7,14 +7,14 @@ import smiley from '../public/smiley.png';
 import dots from '../public/dots.svg';
 import '../App.css';
 import { setFirstName, setLastName, setUsername, setPassword, login, signup, logout, uploadHome, setHomeFiles } from "../actions/userActions";
-import { setStar,unsetStar, getStar, download, deleteFile, getActivity, setProfile, getProfile } from "../actions/userActions";
+import { setStar,unsetStar, getStar, download, deleteFile, getActivity, setProfile } from "../actions/userActions";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 
 
 
 
-class Profile extends Component {
+class EditProfile extends Component {
 
   
 
@@ -25,7 +25,7 @@ class Profile extends Component {
         console.log('Pushing to the page ')
         this.props.history.push('/');
       }
-      this.props.getProfile(this.props.username);
+      
    }
 
   componentDidUpdate(prevProps, prevState) {
@@ -36,7 +36,10 @@ class Profile extends Component {
         console.log('Pushing to the page ')
         this.props.history.push('/');
       }
-      this.props.getProfile(this.props.username);
+      console.log(this.props.profile_updated)
+      if(this.props.profile_updated) {
+        this.props.history.push('/Home');
+      }
 
    }
 
@@ -44,13 +47,7 @@ class Profile extends Component {
   render() {
 
     var username = this.props.username;
-    var interest = this.props.interest;
-    var bio = this.props.bio;
-    var mobile = this.props.mobile;
-    var education = this.props.education;
-    var work = this.props.work;
     console.log('NAME : ' + username);
-    
     var hide = {
       display : "none"
     }
@@ -70,7 +67,7 @@ class Profile extends Component {
                                <Link to="/Home" className="row" style={pad}>Home</Link>
                                <Link to="/Files" className="row" style={pad}>My Files</Link>
                                <Link to="/Shared" className="row" style={pad}>Shared Files</Link>
-                               <Link to="/Files" className="row" style={pad}>Activity Log</Link>
+                               <Link to="/Activity" className="row" style={pad}>Activity Log</Link>
                                <Link to="/Profile" className="row" style={pad}>Profile</Link>
 
                               
@@ -80,7 +77,7 @@ class Profile extends Component {
                       <div className="col-lg-8 home-content">
                         
                           <div>
-                              <h4>Profile</h4>
+                              <h4>Edit Profile</h4>
                               
                           </div> 
 
@@ -95,39 +92,58 @@ class Profile extends Component {
                                       <div className="form-group row profile-form">
                                           <label className="col-sm-2">About Me</label>
                                           <div className="col-sm-10 ">
-                                            <input className="form-control profile-form-text-box" name="bio" id="bio" value={bio} disabled></input>
+                                            <textarea className="form-control profile-form-text-box" name="bio" id="bio" ></textarea>
                                           </div>
                                       </div>
 
                                       <div className="form-group row profile-form">
                                           <label className="col-sm-2">Work</label>
                                           <div className="col-sm-10 ">
-                                            <input  className="form-control" name="work" id="work" value={this.props.work || ' '} disabled></input>
+                                            <input type="text" className="form-control" name="work" id="work" ></input>
                                           </div>
                                       </div>
 
                                       <div className="form-group row profile-form">
                                           <label className="col-sm-2">Education</label>
                                           <div className="col-sm-10 ">
-                                            <input type="text" className="form-control" name="education" id="education" value={education || ' '} disabled></input>
+                                            <input type="text" className="form-control" name="education" id="education" ></input>
                                           </div>
                                       </div>
 
                                       <div className="form-group row profile-form">
                                           <label className="col-sm-2">Mobile</label>
                                           <div className="col-sm-10 ">
-                                            <input type="text" className="form-control" name="mobile" id="mobile" value={mobile || ' '} disabled></input>
+                                            <input type="text" className="form-control" name="mobile" id="mobile" ></input>
                                           </div>
                                       </div>
 
                                       <div className="form-group row profile-form">
                                           <label className="col-sm-2">Interests</label>
                                           <div className="col-sm-10 ">
-                                            <input className="form-control profile-form-text-box" value={interest || ' '} name="interest" id="interest" disabled></input>
+                                            <textarea className="form-control profile-form-text-box" name="interest" id="interest" ></textarea>
                                           </div>
                                       </div>
 
-                                      
+                                      <div className="form-group row profile-button">
+                                          <div className="row col-sm-12">
+                                              <div className="profile-button">
+                                                <button type="submit"  className="btn btn-primary row" 
+                                                    onClick={() => this.props.setProfile(this.props.username,
+                                                                                        document.getElementById('bio').value,
+                                                                                        document.getElementById('work').value,
+                                                                                        document.getElementById('education').value,
+                                                                                        document.getElementById('mobile').value,
+                                                                                        document.getElementById('interest').value)}>Save
+                                              </button>
+                                              </div> 
+
+                                              <div className="profile-button">
+                                                <button type="submit"  className="btn btn-danger" onClick={() => this.props.history.push('/Home')}>Cancel</button>
+                                              </div>
+                                          </div>
+                                      </div>
+
+
                               </div> 
 
                           </div>    
@@ -140,7 +156,7 @@ class Profile extends Component {
                                   <div className="dropdown">
                                       <a href="#" className=" smiley-icon" data-toggle="dropdown" role="button"><img src={smiley}/></a>
                                         <ul className="dropdown-menu smiley-btn">
-                                            <li className="smiley-content"><a href="#" onClick={() => this.props.history.push('/EditProfile')}>Edit Profile</a></li>
+                                            <li className="smiley-content"><a href="#">Edit Profile</a></li>
                                             <li className="smiley-content"><a href="#" onClick={() => this.props.logout()}>Sign Out</a></li>
 
                                         </ul>
@@ -164,7 +180,7 @@ function mapDispatchToProps(dispatch) {
     return {
         logout : () => dispatch(logout()),
         getActivity: (username) => dispatch(getActivity(username)),
-        getProfile: (username) => dispatch(getProfile(username))
+        setProfile: (username, bio, work, education, mobile, interest) => dispatch(setProfile(username, bio, work, education, mobile, interest))
         
     };
 }
@@ -174,11 +190,6 @@ const mapStateToProps = (state) => {
            password: state.reducer.password,
            first_name: state.reducer.first_name,
            last_name: state.reducer.last_name,
-           interest: state.reducer.interest,
-           bio: state.reducer.bio,
-           mobile: state.reducer.mobile,
-           work: state.reducer.work,
-           education: state.reducer.education,
            result: state.reducer.result,
            isValid: state.reducer.isValid,
            file_list_recent: state.reducer.file_list_recent,
@@ -188,5 +199,5 @@ const mapStateToProps = (state) => {
          };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(Profile);
+export default connect(mapStateToProps,mapDispatchToProps)(EditProfile);
 

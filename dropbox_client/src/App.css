@@ -140,6 +140,20 @@
   margin-left: 20px;
 }
 
+.profile-form {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.profile-form-text-box {
+  height : 135px;
+}
+
+.profile-button {
+  
+  margin-left: 20px;
+}
+
 .home-gap {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -184,4 +198,8 @@
   width: 20px;
   margin-left: 10px;
   margin-bottom: 10px;
+}
+
+.message {
+  color: red;
 }

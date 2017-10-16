@@ -11,14 +11,25 @@ var data ={
 	last_name:null,
 	username:null,
 	password:null,
+	message:null,
+	isSignup:null,
+	bio:null,
+	mobile:null,
+	education:null,
+	work:null,
+	interest:null,
 	result:null,
 	operation:null,
 	isValid:false,
 	isLogout:null,
+	isShared:null,
+	profile_updated:null,
 	file_list:[],
+	shared_list: [],
 	file_list_recent:[],
 	file_stared:[],
-	activity:[]	
+	activity:[],
+	user_profile:[]	
 };
 const reducer = (state=data, action) =>{
 
@@ -49,6 +60,14 @@ const reducer = (state=data, action) =>{
 			break;
 		}
 
+		case "SIGNUP":{
+			
+			return Object.assign({}, state, {
+						isSignup: action.payload
+					})
+			break;
+		}
+
 		case "HOME":{
 			
 			return Object.assign({}, state, {
@@ -70,9 +89,21 @@ const reducer = (state=data, action) =>{
 		case "CHECK_PASSWORD":{
 			
 			console.log('REDUCER ISVALID' + action.payload);
-			return Object.assign({}, state, {
-						isValid: action.payload
-					})
+			if(action.payload===true)
+			{
+				return Object.assign({}, state, {
+							isValid: action.payload,
+							message:""
+						})
+			}
+			else
+			{
+				console.log('REDUCER ISVALID' + action.payload);
+				return Object.assign({}, state, {
+							isValid: action.payload,
+							message:"Wrong Username or Password"
+						})	
+			}	
 			break;
 		}
 
@@ -161,6 +192,49 @@ const reducer = (state=data, action) =>{
 			return Object.assign({}, state, {
 
 				activity: action.payload
+			})
+			break;
+		}
+
+		case "EDIT_PROFILE" : {
+
+			return Object.assign({}, state, {
+
+				profile_updated: action.payload
+			})
+			break;
+		}
+
+		case "GET_PROFILE" : {
+
+			return Object.assign({}, state, {
+
+				first_name:action.payload.first_name,
+				last_name: action.payload.last_name,
+				bio: action.payload.bio,
+				mobile: action.payload.mobile,
+				education: action.payload.education,
+				work: action.payload.work,
+				interest: action.payload.interests
+
+			})
+			break;
+		}
+		
+		case "SHARE" : {
+
+			return Object.assign({}, state, {
+
+				isShared: action.payload
+			})
+			break;
+		}
+
+		case "GET_SHARE" : {
+
+			return Object.assign({}, state, {
+
+				shared_list: action.payload
 			})
 			break;
 		}

@@ -1,5 +1,18 @@
 # DropBox Prototype
 
+To run :
+Client:
+Go to dropbox_client folder
+run npm_install
+run npm_start
+
+Server:
+Go to dropbox_server folder
+run npm_install
+run nodemon App.js
+
+
+
 A dropbox prototype created using node, express, react and redux.
 
 Development Log:
@@ -13,3 +26,5 @@ Development Log:
 8. Added new pages for development.
 9. Added Activity Log page.
 10. Added Delete File functionality.
+11. Added Share File
+12. Handling other bugs

@@ -25,6 +25,9 @@ class SignIn extends Component {
    var username = this.props.username;
    var password = this.props.password;
    var isValid = this.props.isValid;
+   var message = this.props.message;
+
+   console.log('MESSAGE : ' + message)
 
   
    
@@ -73,6 +76,9 @@ class SignIn extends Component {
                                             <button type="submit" onClick={() =>this.props.login(this.props.username, this.props.password, 'login')} className="btn btn-primary" >Sign In</button>
                                           </div> 
                                       </div>
+                                      <div className="message">
+                                          {message}
+                                      </div>
 
                             
                               </div>
@@ -94,7 +100,8 @@ function mapDispatchToProps(dispatch) {
 const mapStateToProps = (state) => { 
   return { username: state.reducer.username,
            password: state.reducer.password,
-           isValid: state.reducer.isValid
+           isValid: state.reducer.isValid,
+           message: state.reducer.message
          };
 };
 

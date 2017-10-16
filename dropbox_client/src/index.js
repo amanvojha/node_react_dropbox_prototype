@@ -7,6 +7,8 @@ import Home from './routes/Home';
 import Files from './routes/Files';
 import Shared from './routes/Shared';
 import Activity from './routes/Activity';
+import EditProfile from './routes/EditProfile';
+import Profile from './routes/Profile';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from "react-redux"
 import store from "./reducer/reducer"
@@ -24,7 +26,8 @@ const Pages = () => (
 		<Route path="/Files" exact component={Files} />
 		<Route path="/Shared" exact component={Shared} />
 		<Route path="/Activity" exact component={Activity} />
-		<Route path="/Files" exact component={Files} />
+		<Route path="/EditProfile" exact component={EditProfile} />
+		<Route path="/Profile" exact component={Profile} />
 	</Switch>
 );
 

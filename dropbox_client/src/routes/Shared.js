@@ -3,9 +3,10 @@ import logo from '../public/dropbox_logo_panel.svg';
 import star from '../public/star.png';
 import logo_small from '../public/logo_small.svg';
 import smiley from '../public/smiley.png';
+import dots from '../public/dots.svg';
 import '../App.css';
 import { setFirstName, setLastName, setUsername, setPassword, login, signup, logout, upload, setFiles } from "../actions/userActions";
-import { setStar, getStar, download } from "../actions/userActions";
+import { setStar, getStar, download, getSharedFile } from "../actions/userActions";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 
@@ -21,7 +22,7 @@ class Shared extends Component {
       }
 
       //Bringing Uploaded files
-      this.props.setFiles(this.props.username);
+      this.props.getSharedFile(this.props.username);
      
 
     }
@@ -50,13 +51,16 @@ class Shared extends Component {
       paddingTop : "25px"
     }
 
-    var file_list = this.props.file_list.map((item,key) =>
+    var shared_list = this.props.shared_list.map((item,key) =>
       {
           return(
-              <div key={key} >
+              <div key={key}>
                   <label htmlFor="fileName" className="home-file-row" /*onClick={() => this.props.download(this.props.username,item.file_name)}*/>{item.file_name}
-                    <img src={star} className="home-row-objects" onClick={() => this.props.setStar(this.props.username,item.file_id)}/>
+                    
+                  
                   </label>
+                  
+                                                  
               </div> 
           )
       }
@@ -75,7 +79,7 @@ class Shared extends Component {
                                <Link to="/Files" className="row" style={pad}>My Files</Link>
                                <Link to="/Shared" className="row" style={pad}>Shared Files</Link>
                                <Link to="/Activity" className="row" style={pad}>Activity Log</Link>
-                               <Link to="/Files" className="row" style={pad}>Profile</Link>
+                               <Link to="/Profile" className="row" style={pad}>Profile</Link>
                               
                           </div>  
                       </div>
@@ -96,7 +100,7 @@ class Shared extends Component {
                               
                               <h6 className="home-file-row">All Shared Files</h6>
                               <div>
-                                
+                                {shared_list}
                               </div> 
 
                           </div>    
@@ -109,7 +113,7 @@ class Shared extends Component {
                                   <div className="dropdown">
                                       <a href="#" className=" smiley-icon" data-toggle="dropdown" role="button"><img src={smiley}/></a>
                                         <ul className="dropdown-menu smiley-btn">
-                                            <li className="smiley-content"><a href="#">Edit Profile</a></li>
+                                            <li className="smiley-content"><a href="#" onClick={() => this.props.history.push('/EditProfile')}>Edit Profile</a></li>
                                             <li className="smiley-content"><a href="#" onClick={() => this.props.logout()}>Sign Out</a></li>
                                         </ul>
                                   </div>
@@ -139,7 +143,7 @@ function mapDispatchToProps(dispatch) {
     return {
         logout : () => dispatch(logout()),
         upload : (username,file) => dispatch(upload(username,file)),
-        setFiles: (username) => dispatch(setFiles(username)),
+        getSharedFile: (username) => dispatch(getSharedFile(username)),
         setStar: (username,file_id) => dispatch(setStar(username,file_id)),
         getStar: (username) => dispatch(getStar(username)),
         download: (username,file_name) => dispatch(download(username,file_name))
@@ -154,7 +158,7 @@ const mapStateToProps = (state) => {
            last_name: state.reducer.last_name,
            result: state.reducer.result,
            isValid: state.reducer.isValid,
-           file_list: state.reducer.file_list,
+           shared_list: state.reducer.shared_list,
            file_stared: state.reducer.file_stared
          };
 };

@@ -79,7 +79,7 @@ class Activity extends Component {
                                <Link to="/Files" className="row" style={pad}>My Files</Link>
                                <Link to="/Shared" className="row" style={pad}>Shared Files</Link>
                                <Link to="/Files" className="row" style={pad}>Activity Log</Link>
-                               <Link to="/Files" className="row" style={pad}>Profile</Link>
+                               <Link to="/Profile" className="row" style={pad}>Profile</Link>
 
                               
                           </div>  
@@ -113,7 +113,7 @@ class Activity extends Component {
                                   <div className="dropdown">
                                       <a href="#" className=" smiley-icon" data-toggle="dropdown" role="button"><img src={smiley}/></a>
                                         <ul className="dropdown-menu smiley-btn">
-                                            <li className="smiley-content"><a href="#">Edit Profile</a></li>
+                                            <li className="smiley-content"><a href="#" onClick={() => this.props.history.push('/EditProfile')}>Edit Profile</a></li>
                                             <li className="smiley-content"><a href="#" onClick={() => this.props.logout()}>Sign Out</a></li>
 
                                         </ul>

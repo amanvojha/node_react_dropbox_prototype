@@ -4,8 +4,6 @@ var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended : false});
 var mysql = require('mysql');
 const fileUpload = require('express-fileupload');
-var bcrypt = require('bcrypt');
-
 
 
 var pool = mysql.createPool({
@@ -47,7 +45,6 @@ module.exports = function(app){
 		console.log('Received' + username + " "  + password);
 		
 		
-		
 		pool.getConnection(function(error,connection){
 			
 		
@@ -60,31 +57,7 @@ module.exports = function(app){
 						}
 						if(results.length)
 						{
-							
-							bcrypt.compare(password, results[0].password, function(err, check) {
-							    // res == true
-								
-								if(check==true)
-									{
-										//console.log("Matched!!");
-																										
-										//Token Creation
-										const token = jwt.sign({
-											
-											username: username
-										},config.jwtSecret);
-										
-										res.json({token});
-									}
-								else 
-									{
-										//console.log("Wrong Password");
-										res.json({token:''});
-									}
-							});
-							
-							
-							/*connection.release();
+							connection.release();
 							//console.log(" Data : " + results[0].first_name);
 							dbpass = results[0].password;
 							
@@ -107,7 +80,7 @@ module.exports = function(app){
 								{
 									console.log("Wrong Password");
 									res.json({token:''});
-								}*/
+								}
 						}
 						else
 						{
@@ -129,47 +102,34 @@ module.exports = function(app){
 		var password = req.body.password;
 		var first_name = req.body.first_name;
 		var last_name = req.body.last_name;
-		var hashedPass;
+		var dbpass;
 		
-		const saltRounds = 10;
-		
-		
-		bcrypt.genSalt(saltRounds, function(err, salt) {
-		    bcrypt.hash(password, salt, function(err, hash) {
-		        
-		    	var queIns="INSERT into users ( first_name, last_name, username, password) values ('" + first_name + "','" + last_name + "','" + username + "','" + hash + "')";
-		    	pool.getConnection(function(error,connection){
-					
-		    		
-					connection.query(queIns, function(err , results){
-						
-						if (err) 
-							{
-							connection.release();
-							res.status(400).json({status:false});
-							}
-						else
-							{
-								connection.release();
-								console.log("Data entered Successfully");
-								res.status(200).json({status:true});
-								//res.render('successSignUp');
-							
-							}
-					});
-			
-		    	});
-		    	
-		    	
-		    });
-		});
-		
-		
+		var queIns="INSERT into users ( first_name, last_name, username, password) values ('" + first_name + "','" + last_name + "','" + username + "','" + password + "')";
 		
 		//console.log(queIns);
 				
 				
+		pool.getConnection(function(error,connection){
+			
 		
+				connection.query(queIns, function(err , results){
+					
+					if (err) 
+						{
+						connection.release();
+						res.status(400).json({status:false});
+						}
+					else
+						{
+							connection.release();
+							console.log("Data entered Successfully");
+							res.status(200).json({status:true});
+							//res.render('successSignUp');
+						
+						}
+				});
+		
+		});
 	});
 	
 	//UPLOAD FILES
@@ -826,72 +786,7 @@ module.exports = function(app){
 		});
 		
 	});
-	
-	//Share File
-	app.post('/api/shareFile', function(req,res) {
-		
-		var username = req.body.username;
-		var file_id = req.body.file_id;
-		var file_name = req.body.file_name;
-		var sharedWith = req.body.sharedWith;
-		console.log('SHARE PROFILE : ' + username);
-		console.log('SHARE PROFILE : ' + file_id);
-		console.log('SHARE PROFILE : ' + file_name);
-		console.log('SHARE WITH : ' + sharedWith);
 
-		var ShareFiles="INSERT into shared_files ( username, file_id, file_name, sharedWith) values ('" + username + "','" + file_id + "','" + file_name + "','" + sharedWith + "')";
-		
-		console.log(ShareFiles)
-				
-		pool.getConnection(function(error,connection){
-			connection.query(ShareFiles, function(err , results){
-				
-				if (err) 
-				{
-					connection.release();
-					res.status(400).json({status:false});
-				}	
-				else
-				{
-					connection.release();
-					res.status(200).json({status:true});
-				}
-				
-			});
-		});
-		
-	});
-
-	//Get Shared Files
-	app.post('/api/getSharedFile', function(req,res) {
-		
-		var username = req.body.username;
-		
-		console.log('GET SHARE PROFILE : ' + username);
-		
-		var GetShareFile= "SELECT * from shared_files WHERE sharedWith='"+username+"'";
-		
-		console.log(GetShareFile)
-		
-		
-		pool.getConnection(function(error,connection){
-			connection.query(GetShareFile, function(err , results){
-				
-				if (err) 
-				{
-					connection.release();
-					res.status(400).json({list:''});
-				}	
-				else
-				{
-					connection.release();
-					res.status(200).json({list:results});
-				}
-				
-			});
-		});
-		
-	});
 
 
 
