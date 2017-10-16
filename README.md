@@ -2,14 +2,14 @@
 
 To run :
 Client:
-Go to dropbox_client folder
-run npm_install
-run npm_start
+1. Go to dropbox_client folder
+2. run npm_install
+3. run npm_start
 
 Server:
-Go to dropbox_server folder
-run npm_install
-run nodemon App.js
+1. Go to dropbox_server folder
+2. run npm_install
+3. run nodemon App.js
 
 
 
